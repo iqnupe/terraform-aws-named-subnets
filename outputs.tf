@@ -34,3 +34,15 @@ output "named_subnet_ids" {
     )
   )
 }
+
+output "named_route_table_ids" {
+  description = "Map of subnet names to route table IDs"
+
+  value = zipmap(
+    var.subnet_names,
+    coalescelist(
+      aws_route_table.public.*.id,
+      aws_route_table.private.*.id
+    )
+  )
+}
